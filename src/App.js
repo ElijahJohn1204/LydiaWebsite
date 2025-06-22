@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import LydiaQuoteQuiz from "./Quiz";
+import Quiz from "./Quiz";
 import Home from "./Home";
 
 export default function App() {
@@ -17,7 +17,7 @@ export default function App() {
         <main className="flex-grow p-4">
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/quiz" element={<LydiaQuoteQuiz />} />
+            <Route path="/quiz" element={<Quiz />} />
           </Routes>
         </main>
       </div>
