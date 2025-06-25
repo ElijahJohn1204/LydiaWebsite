@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Quiz from "./Quiz";
 import Home from "./Home";
+import License from "./License";
 
 export default function App() {
   return (
@@ -18,8 +19,21 @@ export default function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/quiz" element={<Quiz />} />
+            <Route path="/license" element={<License />} />
           </Routes>
         </main>
+        <footer className="text-center text-sm text-gray-500 mt-12 p-4 border-t">
+          <p>
+            Some images are used under licenses such as CC-BY or GFDL and have been cropped for layout.
+            Full attributions and licenses can be found on the{" "}
+            <a
+              href="/license"
+              className="text-pink-600 hover:underline"
+            >
+              License
+            </a>.
+          </p>
+        </footer>
       </div>
     </Router>
   );

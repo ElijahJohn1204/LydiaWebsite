@@ -1,5 +1,10 @@
+//todo, add switching answer functionality, increase size of everything, mess around with colors
+
 import React, { useRef, useState, useEffect } from "react";
 
+// This is a fun quiz that generates a Lydia quote based on user answers
+// It includes various questions with different types of answers (text, color, image)
+// The results are based on the most selected answer across all questions
 const questions = [
   {
     question: "Choose a word/phrase that best describes how you feel today:",
@@ -189,6 +194,10 @@ const questions = [
   },
 ];
 
+// Each result has a quote, emoji, and description
+// The quote is a fun, fictional quote that fits the character of Lydia
+// The emoji represents the vibe of the result
+// The description gives a brief personality overview based on the result
 const results = {
   tutu: {
     quote: "\"The thing that is true about both The Game Plan and Zoom is that I'm the girl in the tutu.\"",
@@ -234,13 +243,14 @@ const results = {
 },
 };
 
+// The main component that renders the quiz
+// It manages the state of answers, shows results, and handles user interactions
 export default function LydiaQuoteQuiz() {
   const [answers, setAnswers] = useState(Array(questions.length).fill(null));
   const [showResult, setShowResult] = useState(false);
   const resultRef = useRef(null);
 
   const handleAnswer = (qIndex, resultKey) => {
-    if (answers[qIndex] !== null) return;
 
     const newAnswers = [...answers];
     newAnswers[qIndex] = resultKey;
@@ -268,95 +278,97 @@ export default function LydiaQuoteQuiz() {
   const resultKey = showResult ? calculateResult() : null;
 
   return (
-    <div className="max-w-2xl mx-auto p-6 bg-white rounded-2xl shadow-xl space-y-10">
-      <h2 className="text-3xl font-bold text-pink-600 text-center">
+    <div className="max-w-3xl mx-auto p-8 bg-white rounded-2xl shadow-2xl space-y-12">
+      <h2 className="text-4xl md:text-5xl font-bold text-pink-600 text-center leading-snug">
         Which Lydia Quote Are You?
       </h2>
 
       {questions.map((q, i) => (
-        <div key={i} className="space-y-4">
-          <h3 className="text-xl font-semibold">{q.question}</h3>
-          <div className="grid grid-cols-3 gap-4">
+        <div key={i} className="space-y-6">
+          <h3 className="text-2xl md:text-3xl font-semibold leading-snug text-gray-800">
+            {q.question}
+          </h3>
+          <div
+            className={`grid ${
+              q.options.length === 6 ? "grid-cols-2 md:grid-cols-3" : "grid-cols-2"
+            } gap-6`}
+          >
             {q.type === "image" ? (
-            <div className="grid grid-cols-3 gap-4">
-                {q.options.map((opt, j) => {
+              q.options.map((opt, j) => {
                 const isSelected = answers[i] === opt.result;
                 return (
-                    <button
+                  <button
                     key={j}
                     onClick={() => handleAnswer(i, opt.result)}
-                    disabled={answers[i] !== null}
-                    className={`flex flex-col items-center rounded-xl overflow-hidden border-4 transition ${
-                        isSelected
+                    className={`flex flex-col items-center rounded-xl overflow-hidden border-4 transition-all duration-200 ${
+                      isSelected
                         ? "border-pink-600 scale-105"
                         : "border-transparent hover:scale-105"
                     }`}
-                    >
+                  >
                     <img
-                        src={opt.imageUrl}
-                        alt={opt.caption}
-                        className="w-full aspect-square object-cover"
+                      src={opt.imageUrl}
+                      alt={opt.caption}
+                      className="w-full aspect-square object-cover"
                     />
-                    <div className="text-sm text-gray-800 bg-white px-2 py-1 text-center w-full">
-                        {opt.caption}
+                    <div className="text-base md:text-lg font-medium text-gray-900 bg-white px-3 py-2 text-center w-full break-words">
+                      {opt.caption}
                     </div>
-                    </button>
+                  </button>
                 );
-                })}
-                </div>
-            ) : 
-            q.type === "color" ? (
-            <div className="grid grid-cols-3 gap-4">
-                {q.options.map((opt, j) => {
+              })
+            ) : q.type === "color" ? (
+              q.options.map((opt, j) => {
                 const isSelected = answers[i] === opt.result;
                 return (
-                    <button
+                  <button
                     key={j}
                     onClick={() => handleAnswer(i, opt.result)}
-                    disabled={answers[i] !== null}
-                    className={`w-full aspect-square rounded-xl transition border-4 ${
-                        isSelected
+                    className={`w-full aspect-square rounded-xl transition-all duration-200 border-4 ${
+                      isSelected
                         ? `${opt.color} border-black scale-105`
                         : `${opt.color} border-transparent hover:scale-105`
                     }`}
-                    />
+                  />
                 );
-                })}
-            </div>
+              })
             ) : (
-            <div className="grid grid-cols-3 gap-4">
-                {q.options.map((opt, j) => {
+              q.options.map((opt, j) => {
                 const isSelected = answers[i] === opt.result;
                 return (
-                    <button
+                  <button
                     key={j}
                     onClick={() => handleAnswer(i, opt.result)}
-                    disabled={answers[i] !== null}
-                    className={`text-left px-4 py-4 text-sm rounded-xl border shadow transition-all duration-200 ${
-                        isSelected
-                        ? "bg-pink-500 text-white border-pink-700 scale-105"
-                        : "bg-white hover:bg-pink-50 border-gray-300"
+                    className={`text-center px-4 py-6 text-lg md:text-xl font-medium rounded-2xl transition-all duration-200 break-words leading-snug ${
+                      isSelected
+                        ? "bg-pink-500 text-white border-4 border-pink-700 scale-105"
+                        : "bg-white text-gray-800 border border-gray-300 hover:bg-pink-50"
                     }`}
-                    >
-                    {opt.text}
-                    </button>
+                    style={{
+                      minHeight: "5rem",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <span className="w-full block">{opt.text}</span>
+                  </button>
                 );
-                })}
-            </div>
+              })
             )}
           </div>
         </div>
       ))}
 
-      {showResult && (
-        <div ref={resultRef} className="text-center space-y-6 pt-10">
-          <div className="text-6xl">{results[resultKey].emoji}</div>
-          <h2 className="text-2xl font-bold text-pink-600">
-            {results[resultKey].quote}
-          </h2>
-          <p className="text-lg text-gray-700">{results[resultKey].description}</p>
+      {showResult && resultKey && (
+        <div ref={resultRef} className="text-center space-y-8 pt-16">
+          <div className="text-7xl">{results[resultKey].emoji}</div>
+          <h2 className="text-3xl font-bold text-pink-600">{results[resultKey].quote}</h2>
+          <p className="text-xl text-gray-700 max-w-2xl mx-auto leading-relaxed">
+            {results[resultKey].description}
+          </p>
           <button
-            className="px-4 py-2 bg-pink-500 text-white rounded-xl hover:bg-pink-600 mt-4"
+            className="px-6 py-3 bg-pink-500 text-white rounded-xl text-lg font-semibold hover:bg-pink-600"
             onClick={() => {
               setAnswers(Array(questions.length).fill(null));
               setShowResult(false);
