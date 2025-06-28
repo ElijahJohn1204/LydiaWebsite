@@ -11,6 +11,20 @@ export default function LicensePage() {
       </p>
 
       <section>
+        <h2 className="text-2xl font-semibold mt-6 mb-2 text-pink-500">📸 Home Page</h2>
+        <p className="mb-2">
+          The home page features a background image of a beautiful sunset, which is licensed under{" "}
+          <a
+            href="https://wallpaperdelight.com/wallpapers/aesthetic-beach-wallpaper/"
+            className="text-blue-600 underline"
+            target="_blank" rel="noopener noreferrer"
+          >
+            Wallpaper Delight (CC BY-ND 4.0)
+          </a>.
+        </p>
+      </section>
+
+      <section>
         <h2 className="text-2xl font-semibold mt-6 mb-2 text-pink-500">🎭 Actor Photos</h2>
         <ul className="space-y-2 list-disc pl-6">
           <li>
